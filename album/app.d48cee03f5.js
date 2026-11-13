@@ -1,5 +1,5 @@
-import { readTags } from './id3.5354076521.js';
-import { Spectrum } from './visualizer.5354076521.js';
+import { readTags } from './id3.d48cee03f5.js';
+import { Spectrum } from './visualizer.d48cee03f5.js';
 
 // одна звуковая шина на весь альбом: она нужна только для спектра
 let sharedCtx = null;
@@ -180,13 +180,29 @@ function pause() {
 
 const toggle = () => (audio.paused ? play() : pause());
 
+/* пока звук не пошёл, полоса спектра показывает шкалу в покое */
+function idleMeter() {
+  const canvas = $('spectrum');
+  const box = canvas.getBoundingClientRect();
+  if (!box.width) return;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  canvas.width = Math.round(box.width * dpr);
+  canvas.height = Math.round(box.height * dpr);
+  const ctx = canvas.getContext('2d');
+  const bars = 52;
+  const slot = canvas.width / bars;
+  const bw = Math.max(1, slot * 0.46);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = 'rgba(223, 227, 230, .2)';
+  for (let i = 0; i < bars; i++) ctx.fillRect(i * slot + (slot - bw) / 2, canvas.height - 4, bw, 3);
+}
+
 /* ---------- дыхание обложки на басу ---------- */
 function breathe() {
   requestAnimationFrame(breathe);
   if (!state.viz) return;
-  $('cover').style.setProperty('--breathe', (1 + state.viz.bass * 0.022).toFixed(4));
+  $('cover').style.setProperty('--breathe', (1 + state.viz.bass * 0.014).toFixed(4));
   $('cover').style.setProperty('--glow', `${Math.round(state.viz.bass * 90)}px`);
-  $('spectrum').style.opacity = audio.paused ? 0 : 1;
 }
 
 /* ---------- список ---------- */
@@ -276,7 +292,7 @@ function seekFromEvent(ev) {
 
 /* ---------- старт: сразу альбом, без промежуточных экранов ---------- */
 async function boot() {
-  const [album, tracklist] = await Promise.all([json('album.5354076521.json'), json('tracks.5354076521.json')]);
+  const [album, tracklist] = await Promise.all([json('album.d48cee03f5.json'), json('tracks.d48cee03f5.json')]);
   state.album = album;
   state.tracks = tracklist.sides.flatMap((side) =>
     side.tracks.map((t) => ({ ...t, sideName: side.name, sideNote: side.note })));
@@ -292,6 +308,7 @@ async function boot() {
 
   state.ready = true;
   $('album').hidden = false;
+  idleMeter();
   window.__album = state;
   prefetchCovers();
   await select(state.i, false);

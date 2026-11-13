@@ -54,10 +54,12 @@ export class Spectrum {
   }
 
   idle() {
-    const { ctx, canvas: c } = this;
+    const { ctx, canvas: c, bars } = this;
     ctx.clearRect(0, 0, c.width, c.height);
-    ctx.fillStyle = 'rgba(223, 227, 230, .10)';
-    ctx.fillRect(0, c.height - Math.max(1, c.height * 0.03), c.width, Math.max(1, c.height * 0.03));
+    const slot = c.width / bars;
+    const bw = Math.max(1, slot * 0.46);
+    ctx.fillStyle = 'rgba(223, 227, 230, .22)';
+    for (let i = 0; i < bars; i++) ctx.fillRect(i * slot + (slot - bw) / 2, c.height - 4, bw, 3);
   }
 
   frame() {
