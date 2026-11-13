@@ -1,4 +1,4 @@
-const CACHE = 'vypusk-28eaced8b4';
+const CACHE = 'vypusk-8999e4d1ff';
 
 const SHELL = ['./', './index.html', './manifest.webmanifest', './img/icon-192.png', './img/icon-512.png'];
 
@@ -19,7 +19,7 @@ self.addEventListener('activate', (e) => {
 // альбом играет без сети.
 async function fillAudio() {
   const cache = await caches.open(CACHE);
-  const tracks = await caches.match('./tracks.28eaced8b4.json').then((r) => r.json());
+  const tracks = await caches.match('./tracks.8999e4d1ff.json').then((r) => r.json());
   for (const t of tracks.sides.flatMap((s) => s.tracks)) {
     if (t.file && !t.file.startsWith('data:')) await cache.add(t.file).catch(() => {});
   }
