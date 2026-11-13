@@ -1,5 +1,5 @@
-import { readTags } from './id3.bf6cb81e7f.js';
-import { Spectrum } from './visualizer.bf6cb81e7f.js';
+import { readTags } from './id3.28eaced8b4.js';
+import { Spectrum } from './visualizer.28eaced8b4.js';
 
 // одна звуковая шина на весь альбом: она нужна только для спектра
 let sharedCtx = null;
@@ -292,7 +292,7 @@ function seekFromEvent(ev) {
 
 /* ---------- старт: сразу альбом, без промежуточных экранов ---------- */
 async function boot() {
-  const [album, tracklist] = await Promise.all([json('album.bf6cb81e7f.json'), json('tracks.bf6cb81e7f.json')]);
+  const [album, tracklist] = await Promise.all([json('album.28eaced8b4.json'), json('tracks.28eaced8b4.json')]);
   state.album = album;
   state.tracks = tracklist.sides.flatMap((side) =>
     side.tracks.map((t) => ({ ...t, sideName: side.name, sideNote: side.note })));
@@ -312,6 +312,21 @@ async function boot() {
   window.__album = state;
   prefetchCovers();
   await select(state.i, false);
+
+  // пришли по ссылке на конкретную песню — пробуем играть сразу;
+  // если браузер запретил автозвук, включим на первом же касании
+  if (new URLSearchParams(location.search).get('play') === '1') {
+    play();
+    const kick = () => {
+      if (audio.paused) play();
+      if (!audio.paused) {
+        removeEventListener('pointerdown', kick);
+        removeEventListener('keydown', kick);
+      }
+    };
+    addEventListener('pointerdown', kick);
+    addEventListener('keydown', kick);
+  }
 }
 
 /* ---------- органы управления ---------- */
