@@ -1,5 +1,5 @@
-import { readTags } from './id3.c7395027b0.js';
-import { Spectrum } from './visualizer.c7395027b0.js';
+import { readTags } from './id3.81298150d7.js';
+import { Spectrum } from './visualizer.81298150d7.js';
 
 // одна звуковая шина на весь альбом: она нужна только для спектра
 let sharedCtx = null;
@@ -272,7 +272,7 @@ function seekFromEvent(ev) {
 
 /* ---------- старт: сразу альбом, без промежуточных экранов ---------- */
 async function boot() {
-  const [album, tracklist] = await Promise.all([json('album.c7395027b0.json'), json('tracks.c7395027b0.json')]);
+  const [album, tracklist] = await Promise.all([json('album.81298150d7.json'), json('tracks.81298150d7.json')]);
   state.album = album;
   state.tracks = tracklist.sides.flatMap((side) =>
     side.tracks.map((t) => ({ ...t, sideName: side.name, sideNote: side.note })));
