@@ -1,5 +1,5 @@
-import { readTags } from './id3.8c15665969.js';
-import { Spectrum } from './visualizer.8c15665969.js';
+import { readTags } from './id3.12056d67ba.js';
+import { Spectrum } from './visualizer.12056d67ba.js';
 
 // одна звуковая шина на весь альбом: она нужна только для спектра
 let sharedCtx = null;
@@ -317,7 +317,7 @@ async function enter() {
 
 /* ---------- старт ---------- */
 async function boot() {
-  const [album, tracklist] = await Promise.all([json('album.8c15665969.json'), json('tracks.8c15665969.json')]);
+  const [album, tracklist] = await Promise.all([json('album.12056d67ba.json'), json('tracks.12056d67ba.json')]);
   state.album = album;
   state.tracks = tracklist.sides.flatMap((side) =>
     side.tracks.map((t) => ({ ...t, sideName: side.name, sideNote: side.note })));
@@ -325,7 +325,15 @@ async function boot() {
   document.title = album.title;
   $('bootFile').textContent = album.file || album.title;
   $('bootRel').textContent = album.release || '';
-  $('bootQuote').textContent = album.epigraph || '';
+  // заглушки в квадратных скобках на экран не выводим: недописанный текст
+  // лучше не показать вовсе, чем показать как есть
+  const quote = String(album.epigraph || '').trim();
+  $('bootQuote').textContent = quote.startsWith('[') ? '' : quote;
+  $('bootQuote').hidden = !$('bootQuote').textContent;
+  const greets = String(album.greetings || '').trim();
+  const showGreets = greets && !greets.startsWith('[');
+  $('bootGreetings').textContent = showGreets ? `${greets} ··· ${greets}` : '';
+  document.querySelector('.scroller').hidden = !showGreets;
   $('bootHint').textContent = album.hint || 'press any key';
   $('bootGreetings').textContent = `${album.greetings} ··· ${album.greetings}`;
   $('bootMade').textContent = `сделано в петербурге · ${new Date().getFullYear()} · music disk`;
