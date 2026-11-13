@@ -6,18 +6,8 @@
       "tracks": [
         {
           "file": "audio/354bf65502/001.mp3",
-          "src": "Ноябрьское в стиле Ассаи (LIVE) (1).mp3",
-          "no": 1,
-          "title": "Ноябрьское",
-          "artist": "sahon812",
-          "duration": 236.04,
-          "bitrate": 183,
-          "note": ""
-        },
-        {
-          "file": "audio/354bf65502/002.mp3",
           "src": "Белые Невские недели (1).mp3",
-          "no": 2,
+          "no": 1,
           "title": "Белые невские недели",
           "artist": "sahon812",
           "duration": 236.52,
@@ -25,9 +15,9 @@
           "note": ""
         },
         {
-          "file": "audio/354bf65502/003.mp3",
+          "file": "audio/354bf65502/002.mp3",
           "src": "DDX Springtime (single).mp3",
-          "no": 3,
+          "no": 2,
           "title": "DDX Springtime",
           "artist": "sahon812",
           "duration": 163.03,
@@ -35,9 +25,9 @@
           "note": ""
         },
         {
-          "file": "audio/354bf65502/004.mp3",
+          "file": "audio/354bf65502/003.mp3",
           "src": "Не время любви (авторское) (1).mp3",
-          "no": 4,
+          "no": 3,
           "title": "Не время любви",
           "artist": "sahon812",
           "duration": 233.54,
@@ -45,9 +35,9 @@
           "note": ""
         },
         {
-          "file": "audio/354bf65502/005.mp3",
+          "file": "audio/354bf65502/004.mp3",
           "src": "Стеклянный мир (Л. Дербенёв) Выше радуги (1).mp3",
-          "no": 5,
+          "no": 4,
           "title": "Стеклянный мир",
           "artist": "sahon812",
           "duration": 199.87,
@@ -55,13 +45,23 @@
           "note": ""
         },
         {
-          "file": "audio/354bf65502/006.mp3",
+          "file": "audio/354bf65502/005.mp3",
           "src": "В море всякое бывает (авторская морская песня) (1).mp3",
-          "no": 6,
+          "no": 5,
           "title": "В море всякое бывает",
           "artist": "sahon812",
           "duration": 176.16,
           "bitrate": 188,
+          "note": ""
+        },
+        {
+          "file": "audio/354bf65502/006.mp3",
+          "src": "Ноябрьское в стиле Ассаи (LIVE) (1).mp3",
+          "no": 6,
+          "title": "Ноябрьское",
+          "artist": "sahon812",
+          "duration": 236.04,
+          "bitrate": 183,
           "note": ""
         },
         {
