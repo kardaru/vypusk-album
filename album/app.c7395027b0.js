@@ -1,5 +1,5 @@
-import { readTags } from './id3.273f3a5f0d.js';
-import { Spectrum } from './visualizer.273f3a5f0d.js';
+import { readTags } from './id3.c7395027b0.js';
+import { Spectrum } from './visualizer.c7395027b0.js';
 
 // одна звуковая шина на весь альбом: она нужна только для спектра
 let sharedCtx = null;
@@ -17,40 +17,7 @@ const mmss = (s) => `${Math.floor((s || 0) / 60)}:${String(Math.floor((s || 0) %
 const hex = (n) => `0x${String(n).padStart(2, '0')}`;
 
 const audio = $('audio');
-const state = { album: null, tracks: [], i: 0, entered: false, tags: new Map(), viz: null, token: 0 };
-
-/* ---------- печатная машинка на title screen ---------- */
-function type(element, text, speed = 26) {
-  return new Promise((done) => {
-    let n = 0;
-    const step = () => {
-      element.textContent = text.slice(0, ++n);
-      if (n < text.length) setTimeout(step, speed);
-      else done();
-    };
-    step();
-  });
-}
-
-/* ширина текста честным замером: у блока с nowrap scrollWidth врёт,
-   поэтому мёрим detached-клоном с той же типографикой */
-function textWidth(node, text, size) {
-  const probe = node.cloneNode(false);
-  probe.style.cssText = `position:absolute;left:-9999px;top:0;visibility:hidden;white-space:pre;font-size:${size}px`;
-  probe.textContent = text;
-  document.body.append(probe);
-  const w = probe.getBoundingClientRect().width;
-  probe.remove();
-  return w;
-}
-
-/* кегль заголовка: считаем только от ширины окна, коробка .boot-inner ей же
-   и ограничена — иначе замер контейнера в разных браузерах разъезжается */
-function fit(node, text) {
-  const avail = innerWidth * 0.9;
-  const w100 = textWidth(node, text, 100) || 1;
-  node.style.fontSize = `${Math.min((avail / w100) * 100, innerHeight * 0.26, 170)}px`;
-}
+const state = { album: null, tracks: [], i: 0, ready: false, tags: new Map(), viz: null, token: 0 };
 
 /* ---------- аудиорайвер альбома ---------- */
 function connect() {
@@ -141,6 +108,8 @@ async function select(index, autoplay = true) {
   $('trackArtist').textContent = track.artist || '';
   $('trackNote').textContent = track.note || '';
   $('sideTag').textContent = track.sideName || '';
+  $('seekFilled').style.width = '0%';
+  $('seekTime').textContent = `0:00 / ${mmss(track.duration)}`;
   document.querySelectorAll('.rail-row').forEach((row) =>
     row.classList.toggle('current', Number(row.dataset.i) === index));
   localStorage.setItem('vypusk.track', String(index));
@@ -301,68 +270,27 @@ function seekFromEvent(ev) {
   $('seekFilled').style.width = `${ratio * 100}%`;
 }
 
-/* ---------- вход в альбом ---------- */
-async function enter() {
-  // resume строго в обработчике жеста: на iOS отложенный вызов не считается жестом
-  const ctx = ensureContext();
-  if (ctx.state === 'suspended') ctx.resume().catch(() => {});
-
-  if (state.entered) return;
-  state.entered = true;
-  $('boot').classList.add('out');
-  $('album').hidden = false;
-  setTimeout(() => $('boot')?.remove(), 900);
-  await select(state.i);
-}
-
-/* ---------- старт ---------- */
+/* ---------- старт: сразу альбом, без промежуточных экранов ---------- */
 async function boot() {
-  const [album, tracklist] = await Promise.all([json('album.273f3a5f0d.json'), json('tracks.273f3a5f0d.json')]);
+  const [album, tracklist] = await Promise.all([json('album.c7395027b0.json'), json('tracks.c7395027b0.json')]);
   state.album = album;
   state.tracks = tracklist.sides.flatMap((side) =>
     side.tracks.map((t) => ({ ...t, sideName: side.name, sideNote: side.note })));
 
   document.title = album.title;
-  $('bootFile').textContent = album.file || album.title;
-  $('bootRel').textContent = album.release || '';
-  // заглушки в квадратных скобках на экран не выводим: недописанный текст
-  // лучше не показать вовсе, чем показать как есть
-  const quote = String(album.epigraph || '').trim();
-  $('bootQuote').textContent = quote.startsWith('[') ? '' : quote;
-  $('bootQuote').hidden = !$('bootQuote').textContent;
-  const greets = String(album.greetings || '').trim();
-  const showGreets = greets && !greets.startsWith('[');
-  $('bootGreetings').textContent = showGreets ? `${greets} ··· ${greets}` : '';
-  document.querySelector('.scroller').hidden = !showGreets;
-  $('bootHint').textContent = album.hint || 'press any key';
-  $('bootGreetings').textContent = `${album.greetings} ··· ${album.greetings}`;
-  $('bootMade').textContent = `сделано в петербурге · ${new Date().getFullYear()} · music disk`;
   $('mastFile').textContent = album.file || album.title;
   buildRail();
 
+  // всегда начинаем с первого трека стороны А; ?t= — только явная ссылка на трек
   const link = new URLSearchParams(location.search).get('t');
-  const wanted = Number(link ?? localStorage.getItem('vypusk.track'));
+  const wanted = link === null ? 0 : Number(link);
   state.i = Number.isInteger(wanted) && state.tracks[wanted] ? wanted : 0;
 
+  state.ready = true;
+  $('album').hidden = false;
   window.__album = state;
   prefetchCovers();
-
-  addEventListener('keydown', enter);
-  addEventListener('pointerdown', enter);
-  addEventListener('touchstart', enter, { passive: true });
-
-  // ?shell — сразу показать альбом: снимки раскладки и отладка без жеста
-  if (new URLSearchParams(location.search).has('shell')) enter();
-
-  // без готового шрифта замер ширины врёт: пиксельный Handjet шире системного моноширинного
-  await Promise.race([
-    document.fonts.load('700 100px Handjet', album.title).catch(() => {}),
-    new Promise((r) => setTimeout(r, 1200)),
-  ]);
-  fit($('bootTitle'), album.title);
-  await type($('bootTitle'), album.title, 30);
-  fit($('bootTitle'), album.title);
-  addEventListener('resize', () => $('bootTitle') && fit($('bootTitle'), album.title));
+  await select(state.i, false);
 }
 
 /* ---------- органы управления ---------- */
@@ -386,7 +314,7 @@ audio.addEventListener('ended', () => {
 });
 
 addEventListener('keydown', (e) => {
-  if (!state.entered) return;
+  if (!state.ready) return;
   const k = e.key.toLowerCase();
   if (k === ' ') { e.preventDefault(); toggle(); }
   else if (k === 'arrowright') select(Math.min(state.i + 1, state.tracks.length - 1));
@@ -400,7 +328,7 @@ addEventListener('keydown', (e) => {
 let touchX = 0;
 addEventListener('touchstart', (e) => (touchX = e.touches[0].clientX), { passive: true });
 addEventListener('touchend', (e) => {
-  if (!state.entered) return;
+  if (!state.ready) return;
   const dx = e.changedTouches[0].clientX - touchX;
   if (Math.abs(dx) > 70) select(Math.min(Math.max(state.i + (dx < 0 ? 1 : -1), 0), state.tracks.length - 1));
 }, { passive: true });
