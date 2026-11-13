@@ -1,5 +1,5 @@
-import { readTags } from './id3.81298150d7.js';
-import { Spectrum } from './visualizer.81298150d7.js';
+import { readTags } from './id3.5354076521.js';
+import { Spectrum } from './visualizer.5354076521.js';
 
 // одна звуковая шина на весь альбом: она нужна только для спектра
 let sharedCtx = null;
@@ -15,6 +15,8 @@ const $ = (id) => document.getElementById(id);
 const json = (url) => fetch(url, { cache: 'no-cache' }).then((r) => r.json());
 const mmss = (s) => `${Math.floor((s || 0) / 60)}:${String(Math.floor((s || 0) % 60)).padStart(2, '0')}`;
 const hex = (n) => `0x${String(n).padStart(2, '0')}`;
+const ICON_PLAY = '<svg viewBox="0 0 24 24"><path d="M8.4 4.6 20 12 8.4 19.4z"/></svg>';
+const ICON_PAUSE = '<svg viewBox="0 0 24 24"><path d="M7 4.8h3.6v14.4H7zM13.4 4.8H17v14.4h-3.6z"/></svg>';
 
 const audio = $('audio');
 const state = { album: null, tracks: [], i: 0, ready: false, tags: new Map(), viz: null, token: 0 };
@@ -109,7 +111,9 @@ async function select(index, autoplay = true) {
   $('trackNote').textContent = track.note || '';
   $('sideTag').textContent = track.sideName || '';
   $('seekFilled').style.width = '0%';
-  $('seekTime').textContent = `0:00 / ${mmss(track.duration)}`;
+  $('timeNow').textContent = '0:00';
+  $('timeTotal').textContent = mmss(track.duration);
+  $('btnPlay').innerHTML = ICON_PLAY;
   document.querySelectorAll('.rail-row').forEach((row) =>
     row.classList.toggle('current', Number(row.dataset.i) === index));
   localStorage.setItem('vypusk.track', String(index));
@@ -155,7 +159,7 @@ async function play() {
     console.warn('трек не стартовал:', err);
   }
   if (audio.paused) return;
-  $('btnPlay').innerHTML = '&#10074;&#10074;';
+  $('btnPlay').innerHTML = ICON_PAUSE;
   $('btnPlay').setAttribute('aria-label', 'Пауза');
   // Спектр подключаем только после того, как звук реально пошёл: маршрут через
   // приостановленный AudioContext сам по себе делает трек немым.
@@ -168,7 +172,7 @@ async function play() {
 
 function pause() {
   audio.pause();
-  $('btnPlay').innerHTML = '&#9658;';
+  $('btnPlay').innerHTML = ICON_PLAY;
   $('btnPlay').setAttribute('aria-label', 'Играть');
   state.viz?.stop();
   state.viz?.idle();
@@ -272,7 +276,7 @@ function seekFromEvent(ev) {
 
 /* ---------- старт: сразу альбом, без промежуточных экранов ---------- */
 async function boot() {
-  const [album, tracklist] = await Promise.all([json('album.81298150d7.json'), json('tracks.81298150d7.json')]);
+  const [album, tracklist] = await Promise.all([json('album.5354076521.json'), json('tracks.5354076521.json')]);
   state.album = album;
   state.tracks = tracklist.sides.flatMap((side) =>
     side.tracks.map((t) => ({ ...t, sideName: side.name, sideNote: side.note })));
@@ -306,7 +310,8 @@ $('seek').addEventListener('pointermove', (e) => { if (e.buttons) seekFromEvent(
 audio.addEventListener('timeupdate', () => {
   const d = audio.duration || 0;
   $('seekFilled').style.width = `${d ? (audio.currentTime / d) * 100 : 0}%`;
-  $('seekTime').textContent = `${mmss(audio.currentTime)} / ${mmss(d)}`;
+  $('timeNow').textContent = mmss(audio.currentTime);
+  if (d) $('timeTotal').textContent = mmss(d);
 });
 audio.addEventListener('ended', () => {
   if (state.i + 1 < state.tracks.length) select(state.i + 1);
