@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta name="theme-color" content="#06080b">
+<meta name="build" content="74651b06a0">
+<meta name="robots" content="noindex, nofollow">
+<title>Ноябрьское</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="img/icon-192.png">
+<link rel="apple-touch-icon" href="img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ноябрьское">
+<link rel="stylesheet" href="styles.74651b06a0.css">
+</head>
+<body>
+<div class="bg grid" aria-hidden="true"></div>
+<div class="bg vignette" aria-hidden="true"></div>
+<div class="bg grain" aria-hidden="true"></div>
+<div class="bg scan" aria-hidden="true"></div>
+<div class="hud" aria-hidden="true"></div>
+
+<!-- title screen: играет синтезированный чиптюн, пока не нажмёшь -->
+<section id="boot" class="boot">
+  <div class="boot-inner">
+    <p class="boot-file" id="bootFile"></p>
+    <h1 class="boot-title" id="bootTitle"></h1>
+    <p class="boot-rel" id="bootRel"></p>
+    <p class="boot-quote" id="bootQuote"></p>
+    <p><span class="boot-hint" id="bootHint">press any key</span></p>
+  </div>
+  <div class="scroller"><span id="bootGreetings"></span></div>
+  <p class="boot-made" id="bootMade"></p>
+</section>
+
+<!-- сам music disk -->
+<main id="album" class="album" hidden>
+  <header class="masthead">
+    <span class="wordmark" id="mastFile"></span>
+    <span class="side-tag" id="sideTag"></span>
+  </header>
+
+  <section class="stage">
+    <div class="cover-wrap">
+      <div class="cover" id="cover">
+        <canvas id="spectrum" width="1000" height="1000"></canvas>
+        <div class="cover-missing" id="coverMissing">&#9834;</div>
+      </div>
+    </div>
+
+    <div class="meta">
+      <p class="track-no" id="trackNo">0x01</p>
+      <h2 class="track-title" id="trackTitle"></h2>
+      <p class="track-artist" id="trackArtist"></p>
+      <p class="track-note" id="trackNote"></p>
+    </div>
+  </section>
+
+  <section class="transport">
+    <div class="seek" id="seek" role="slider" aria-label="Перемотка" tabindex="0">
+      <div class="seek-filled" id="seekFilled"></div>
+      <div class="seek-time" id="seekTime">0:00 / 0:00</div>
+    </div>
+    <div class="controls">
+      <button class="ctl" id="btnPrev" aria-label="Предыдущий">&laquo;</button>
+      <button class="ctl main" id="btnPlay" aria-label="Играть">&#9658;</button>
+      <button class="ctl" id="btnNext" aria-label="Следующий">&raquo;</button>
+      <button class="ctl ghost" id="btnList" aria-label="Список треков">LIST</button>
+      <button class="ctl ghost" id="btnCredits" aria-label="Титры">CRED</button>
+    </div>
+  </section>
+
+  <nav class="rail" id="rail" aria-label="Список треков"></nav>
+
+  <footer class="foot">
+    <span>space &mdash; play &middot; &larr;&rarr; &mdash; трек &middot; 1&hellip;9 &mdash; номер &middot; c &mdash; титры &middot; l &mdash; список</span>
+    <span id="offlineBadge" class="badge" hidden>офлайн</span>
+    <span id="buildTag" class="badge"></span>
+  </footer>
+</main>
+
+<section id="credits" class="credits" hidden>
+  <div class="credits-scroll" id="creditsScroll"></div>
+  <button class="credits-close" id="creditsClose">[ закрыть титры ]</button>
+</section>
+
+<audio id="audio" preload="metadata"></audio>
+<script type="module" src="app.74651b06a0.js"></script>
+</body>
+</html>
