@@ -86,7 +86,7 @@ body {
   min-height: 0; padding: clamp(10px, 2.4vh, 24px) 0 0;
 }
 
-.cover-wrap { position: relative; display: grid; place-items: center; width: 100%; min-height: 0; }
+.cover-wrap { position: relative; display: grid; place-items: end center; width: 100%; min-height: 0; }
 .cover-wrap::before {
   content: ""; position: absolute; left: 50%; top: 50%; width: 128%; height: 128%;
   transform: translate(-50%, -50%); pointer-events: none;
