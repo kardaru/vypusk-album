@@ -198,21 +198,6 @@ body {
 .foot .ver { color: rgba(223, 227, 230, .2); letter-spacing: .08em; white-space: nowrap; }
 .badge { color: var(--cyan); border: 1px solid rgba(111, 214, 232, .35); padding: 2px 6px; }
 
-/* ---------- титры ---------- */
-.credits { position: fixed; inset: 0; z-index: 30; overflow: hidden; background: radial-gradient(70% 55% at 50% 60%, #0b0f14 0%, var(--void) 80%); }
-.credits-scroll {
-  width: min(54ch, 88vw); margin: 0 auto; text-align: center;
-  font: 400 clamp(17px, 2.6vw, 24px)/2 var(--pixel); color: var(--white);
-  animation: roll 46s linear infinite;
-}
-.credits-scroll .blank { height: 60vh; }
-.credits-scroll em { color: var(--lamp); font-style: normal; }
-@keyframes roll { from { transform: translateY(100vh); } to { transform: translateY(-100%); } }
-.credits-close {
-  position: absolute; left: 50%; transform: translateX(-50%); bottom: 24px;
-  background: none; border: 0; color: var(--dim); font: 400 9px/1 var(--mono); letter-spacing: .24em; cursor: pointer;
-}
-
 @media (max-width: 420px) {
   .ctl.ghost { padding: 0 9px; font-size: 8px; }
   .controls { gap: 7px; }

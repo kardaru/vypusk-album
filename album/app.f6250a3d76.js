@@ -1,5 +1,5 @@
-import { readTags } from './id3.c34c05b591.js';
-import { Spectrum } from './visualizer.c34c05b591.js';
+import { readTags } from './id3.f6250a3d76.js';
+import { Spectrum } from './visualizer.f6250a3d76.js';
 
 // одна звуковая шина на весь альбом: она нужна только для спектра
 let sharedCtx = null;
@@ -257,30 +257,6 @@ function buildRail() {
 const openRail = () => $('rail').classList.add('open');
 const closeRail = () => $('rail').classList.remove('open');
 
-/* ---------- титры ---------- */
-function showCredits() {
-  const box = $('creditsScroll');
-  box.textContent = '';
-  const blank = () => box.append(Object.assign(document.createElement('div'), { className: 'blank' }));
-  blank();
-  (state.album?.credits || []).forEach((line) => {
-    const p = document.createElement('div');
-    p.textContent = line;
-    box.append(p);
-  });
-  state.tracks.forEach((t) => {
-    const line = document.createElement('div');
-    const em = document.createElement('em');
-    em.textContent = t.title || '';
-    line.append(em, document.createTextNode(` · ${t.artist || ''}`));
-    box.append(line);
-  });
-  blank();
-  $('credits').hidden = false;
-}
-
-const hideCredits = () => ($('credits').hidden = true);
-
 /* ---------- перемотка ---------- */
 function seekFromEvent(ev) {
   const rect = $('seek').getBoundingClientRect();
@@ -292,7 +268,7 @@ function seekFromEvent(ev) {
 
 /* ---------- старт: сразу альбом, без промежуточных экранов ---------- */
 async function boot() {
-  const [album, tracklist] = await Promise.all([json('album.c34c05b591.json'), json('tracks.c34c05b591.json')]);
+  const [album, tracklist] = await Promise.all([json('album.f6250a3d76.json'), json('tracks.f6250a3d76.json')]);
   state.album = album;
   state.tracks = tracklist.sides.flatMap((side) =>
     side.tracks.map((t) => ({ ...t, sideName: side.name, sideNote: side.note })));
@@ -334,8 +310,6 @@ $('btnPlay').onclick = toggle;
 $('btnPrev').onclick = () => select((state.i - 1 + state.tracks.length) % state.tracks.length);
 $('btnNext').onclick = () => select((state.i + 1) % state.tracks.length);
 $('btnList').onclick = openRail;
-$('btnCredits').onclick = showCredits;
-$('creditsClose').onclick = hideCredits;
 $('seek').addEventListener('pointerdown', (e) => { seekFromEvent(e); e.currentTarget.setPointerCapture(e.pointerId); });
 $('seek').addEventListener('pointermove', (e) => { if (e.buttons) seekFromEvent(e); });
 
@@ -347,7 +321,7 @@ audio.addEventListener('timeupdate', () => {
 });
 audio.addEventListener('ended', () => {
   if (state.i + 1 < state.tracks.length) select(state.i + 1);
-  else { pause(); showCredits(); }
+  else pause();
 });
 
 addEventListener('keydown', (e) => {
@@ -356,9 +330,8 @@ addEventListener('keydown', (e) => {
   if (k === ' ') { e.preventDefault(); toggle(); }
   else if (k === 'arrowright') select(Math.min(state.i + 1, state.tracks.length - 1));
   else if (k === 'arrowleft') select(Math.max(state.i - 1, 0));
-  else if (k === 'c') $('credits').hidden ? showCredits() : hideCredits();
   else if (k === 'l') $('rail').classList.toggle('open');
-  else if (k === 'escape') { closeRail(); hideCredits(); }
+  else if (k === 'escape') closeRail();
   else if (/^[1-9]$/.test(k)) select(Math.min(Number(k) - 1, state.tracks.length - 1));
 });
 
