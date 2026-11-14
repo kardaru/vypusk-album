@@ -5,7 +5,7 @@
       "note": "дневная",
       "tracks": [
         {
-          "file": "audio/354bf65502/001.mp3",
+          "file": "audio/dffd07ff6d/001.mp3",
           "src": "Белые Невские недели (1).mp3",
           "no": 1,
           "title": "Белые невские недели",
@@ -15,7 +15,7 @@
           "note": ""
         },
         {
-          "file": "audio/354bf65502/002.mp3",
+          "file": "audio/dffd07ff6d/002.mp3",
           "src": "DDX Springtime (single).mp3",
           "no": 2,
           "title": "DDX Springtime",
@@ -25,7 +25,7 @@
           "note": ""
         },
         {
-          "file": "audio/354bf65502/003.mp3",
+          "file": "audio/dffd07ff6d/003.mp3",
           "src": "Не время любви (авторское) (1).mp3",
           "no": 3,
           "title": "Не время любви",
@@ -35,7 +35,7 @@
           "note": ""
         },
         {
-          "file": "audio/354bf65502/004.mp3",
+          "file": "audio/dffd07ff6d/004.mp3",
           "src": "Стеклянный мир (Л. Дербенёв) Выше радуги (1).mp3",
           "no": 4,
           "title": "Стеклянный мир",
@@ -45,7 +45,7 @@
           "note": ""
         },
         {
-          "file": "audio/354bf65502/005.mp3",
+          "file": "audio/dffd07ff6d/005.mp3",
           "src": "В море всякое бывает (авторская морская песня) (1).mp3",
           "no": 5,
           "title": "В море всякое бывает",
@@ -55,22 +55,22 @@
           "note": ""
         },
         {
-          "file": "audio/354bf65502/006.mp3",
-          "src": "Ноябрьское в стиле Ассаи (LIVE) (1).mp3",
-          "no": 6,
-          "title": "Ноябрьское",
-          "artist": "sahon812",
-          "duration": 236.04,
-          "bitrate": 183,
-          "note": ""
-        },
-        {
-          "file": "audio/354bf65502/007.mp3",
+          "file": "audio/dffd07ff6d/006.mp3",
           "src": "Папа Лям (авторское).mp3",
-          "no": 7,
+          "no": 6,
           "title": "Папа Лям",
           "artist": "sahon812",
           "duration": 104.4,
+          "bitrate": 179,
+          "note": ""
+        },
+        {
+          "file": "audio/dffd07ff6d/007.mp3",
+          "src": "В дыму иланга (авторское) (1).mp3",
+          "no": 7,
+          "title": "В дыму иланга",
+          "artist": "sahon812",
+          "duration": 271.99,
           "bitrate": 179,
           "note": ""
         }
@@ -81,19 +81,9 @@
       "note": "ночная",
       "tracks": [
         {
-          "file": "audio/354bf65502/008.mp3",
-          "src": "В дыму иланга (авторское) (1).mp3",
-          "no": 8,
-          "title": "В дыму иланга",
-          "artist": "sahon812",
-          "duration": 271.99,
-          "bitrate": 179,
-          "note": ""
-        },
-        {
-          "file": "audio/354bf65502/009.mp3",
+          "file": "audio/dffd07ff6d/008.mp3",
           "src": "Электрический блюз (авторское) (Remastered).mp3",
-          "no": 9,
+          "no": 8,
           "title": "Электрический блюз",
           "artist": "sahon812",
           "duration": 248.95,
@@ -101,9 +91,9 @@
           "note": ""
         },
         {
-          "file": "audio/354bf65502/010.mp3",
+          "file": "audio/dffd07ff6d/009.mp3",
           "src": "Маяковский.mp3",
-          "no": 10,
+          "no": 9,
           "title": "Маяковский",
           "artist": "sahon812",
           "duration": 243.86,
@@ -111,9 +101,9 @@
           "note": ""
         },
         {
-          "file": "audio/354bf65502/011.mp3",
+          "file": "audio/dffd07ff6d/010.mp3",
           "src": "На танцполе (авторское, воспоминания о 2000-х) (Remastered).mp3",
-          "no": 11,
+          "no": 10,
           "title": "На танцполе",
           "artist": "sahon812",
           "duration": 187.44,
@@ -121,9 +111,9 @@
           "note": ""
         },
         {
-          "file": "audio/354bf65502/012.mp3",
+          "file": "audio/dffd07ff6d/011.mp3",
           "src": "Водка и деревня (censored) (3).mp3",
-          "no": 12,
+          "no": 11,
           "title": "Водка и деревня",
           "artist": "sahon812",
           "duration": 217.8,
@@ -131,9 +121,9 @@
           "note": ""
         },
         {
-          "file": "audio/354bf65502/013.mp3",
+          "file": "audio/dffd07ff6d/012.mp3",
           "src": "Уходи (авторское).mp3",
-          "no": 13,
+          "no": 12,
           "title": "Уходи",
           "artist": "sahon812",
           "duration": 194.66,
@@ -141,9 +131,9 @@
           "note": ""
         },
         {
-          "file": "audio/354bf65502/014.mp3",
+          "file": "audio/dffd07ff6d/013.mp3",
           "src": "Этой ночью я один в стиле Альянс - На Заре (1).mp3",
-          "no": 14,
+          "no": 13,
           "title": "Этой ночью я один",
           "artist": "sahon812",
           "duration": 150.96,
@@ -151,9 +141,9 @@
           "note": ""
         },
         {
-          "file": "audio/354bf65502/015.mp3",
+          "file": "audio/dffd07ff6d/014.mp3",
           "src": "Баллада Атоса Есть в графском парке черный пруд.mp3",
-          "no": 15,
+          "no": 14,
           "title": "Баллада Атоса",
           "artist": "sahon812",
           "duration": 245.88,
